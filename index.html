@@ -22,18 +22,20 @@
   </head>
   <body>
     <h1>Password Check</h1>
-    <section class="input-area">
-      <input type="password" name="first-password" id="first-password" />
-      <input type="password" name="second-password" id="second-password" />
-      <button id="switch-pw-visibility">Show Passwords</button>
-    </section>
-    <section class="check-area">
-      <p id="equality-check">Passwords are equal</p>
-      <p id="lower-case-check">Lower Case Letters</p>
-      <p id="upper-case-check">Upper Case Letters</p>
-      <p id="numbers-check">Conatins Numbers</p>
-      <p id="minimum-length-check">At least 10 characters long</p>
-    </section>
+    <main>
+      <section class="input-area">
+        <input type="password" name="first-password" id="first-password" />
+        <input type="password" name="second-password" id="second-password" />
+        <button id="switch-pw-visibility">Show Passwords</button>
+      </section>
+      <section class="check-area">
+        <p id="equality-check">Passwords are equal ❌</p>
+        <p id="lower-case-check">Lower Case Letters ❌</p>
+        <p id="upper-case-check">Upper Case Letters ❌</p>
+        <p id="contains-numbers-check">Conatins Numbers ❌</p>
+        <p id="minimum-length-check">At least 10 characters long ❌</p>
+      </section>
+    </main>
     <script src="script.js"></script>
   </body>
 </html>

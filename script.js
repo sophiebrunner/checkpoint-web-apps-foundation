@@ -1,8 +1,7 @@
 const firstPassword = document.querySelector("#first-password");
-console.log(typeof firstPassword);
-const firstPasswordValue = firstPassword.value;
-console.log(firstPasswordValue);
 const secondPassword = document.querySelector("#second-password");
+secondPassword.addEventListener("keyup", passwordCheck);
+firstPassword.addEventListener("keyup", passwordCheck);
 
 //Toggle button to show and hide passwords
 const switchPWButton = document.querySelector("#switch-pw-visibility");
@@ -22,41 +21,55 @@ switchPWButton.addEventListener("click", () => {
 });
 
 function passwordCheck() {
+  //Store both input-elements in objects
   const firstPassword = document.querySelector("#first-password");
   const secondPassword = document.querySelector("#second-password");
 
   //First check: Passwords are euqal
+  const equalityCheck = document.querySelector("#equality-check");
   if (firstPassword.value === secondPassword.value) {
-    console.log("Passwords are equal");
-  } else {
-    console.log("Passwords are not equal");
-  }
+    equalityCheck.innerHTML = "Passwords are equal ✅";
+    //Second check: Lower case letters
+    const lowerCaseCheck = document.querySelector("#lower-case-check");
+    if (
+      firstPassword.value.match(/[a-z]/gm) &&
+      secondPassword.value.match(/[a-z]/gm)
+    ) {
+      lowerCaseCheck.innerHTML = "Lower Case Letters ✅";
+    } else {
+      lowerCaseCheck.innerHTML = "Lower Case Letters ❌";
+    }
+    //Third check: Upper case letters
+    const upperCaseCheck = document.querySelector("#upper-case-check");
+    if (
+      firstPassword.value.match(/[A-Z]/gm) &&
+      secondPassword.value.match(/[A-Z]/gm)
+    ) {
+      upperCaseCheck.innerHTML = "Upper Case Letters ✅";
+    } else {
+      upperCaseCheck.innerHTML = "Upper Case Letters ❌";
+    }
+    //Fourth check: Contains numbers
+    const containsNumbersCheck = document.querySelector(
+      "#contains-numbers-check"
+    );
+    if (
+      firstPassword.value.match(/[1-9]/gm) &&
+      secondPassword.value.match(/[1-9]/gm)
+    ) {
+      containsNumbersCheck.innerHTML = "Contains Numbers ✅";
+    } else {
+      containsNumbersCheck.innerHTML = "Contains Numbers ❌";
+    }
 
-  //Second check: Lower case letters
-  if (firstPassword.value.match(/[a-z]/gm)) {
-    console.log("Lower Case Letters");
+    //Fifth check: At least 10 characters long
+    const minimumLengthCheck = document.querySelector("#minimum-length-check");
+    if (firstPassword.value.length > 10 && secondPassword.value.length > 10) {
+      minimumLengthCheck.innerHTML = "At least 10 characters long ✅";
+    } else {
+      minimumLengthCheck.innerHTML = "At least 10 characters long ❌";
+    }
   } else {
-    console.log("No lower case letters");
-  }
-
-  //Third check: Upper case letters
-  if (firstPassword.value.match(/[A-Z]/gm)) {
-    console.log("Upper Case Letters");
-  } else {
-    console.log("No upper case letters");
-  }
-
-  //Fourth check: Contains numbers
-  if (firstPassword.value.match(/[1-9]/gm)) {
-    console.log("Contains numbers");
-  } else {
-    console.log("Couldn't find any numbers");
-  }
-
-  //Fifth check: At least 10 characters long
-  if (firstPassword.value.lenght > 10) {
-    console.log("At least 10 characters long");
-  } else {
-    console.log("Please inserts at least 10 characters");
+    equalityCheck.innerHTML = "Passwords are equal ❌";
   }
 }
