@@ -17,7 +17,7 @@ function renderPasswordCheck() {
   //"input"-event represents a change of the input
   //Password-check only runs, if passwords are equal
   //Else "check-no"-class is added to every single check-element
-  secondPassword.addEventListener("input", () => {
+  firstPassword.addEventListener("input", () => {
     if (firstPassword.value === secondPassword.value) {
       passwordCheck();
     } else {
@@ -28,7 +28,7 @@ function renderPasswordCheck() {
     }
   });
 
-  firstPassword.addEventListener("input", () => {
+  secondPassword.addEventListener("input", () => {
     if (firstPassword.value === secondPassword.value) {
       passwordCheck();
     } else {
