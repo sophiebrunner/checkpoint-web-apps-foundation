@@ -1,8 +1,11 @@
+//Define render-function to avoid global variables
 function renderPasswordCheck() {
   //Store both input-elements in objects
   const firstPassword = document.querySelector("#first-password");
   const secondPassword = document.querySelector("#second-password");
-
+  //Store all check-text-elements together in an object
+  const allChecks = document.querySelectorAll("p");
+  //Store single check-text-elements in objects
   const equalityCheck = document.querySelector("#equality-check");
   const lowerCaseCheck = document.querySelector("#lower-case-check");
   const upperCaseCheck = document.querySelector("#upper-case-check");
@@ -10,16 +13,18 @@ function renderPasswordCheck() {
     "#contains-numbers-check"
   );
   const minimumLengthCheck = document.querySelector("#minimum-length-check");
-
+  //Add events for both input-elements
+  //"input"-event represents a change of the input
+  //Password-check only runs, if passwords are equal
+  //Else "check-no"-class is added to every single check-element
   secondPassword.addEventListener("input", () => {
     if (firstPassword.value === secondPassword.value) {
       passwordCheck();
     } else {
-      equalityCheck.innerHTML = "Passwords are equal ❌";
-      lowerCaseCheck.innerHTML = "Lower Case Letters ❌";
-      upperCaseCheck.innerHTML = "Upper Case Letters ❌";
-      containsNumbersCheck.innerHTML = "Contains Numbers ❌";
-      minimumLengthCheck.innerHTML = "At least 10 characters long ❌";
+      for (const check of allChecks) {
+        check.classList.remove("check-yes");
+        check.classList.add("check-no");
+      }
     }
   });
 
@@ -27,20 +32,21 @@ function renderPasswordCheck() {
     if (firstPassword.value === secondPassword.value) {
       passwordCheck();
     } else {
-      equalityCheck.innerHTML = "Passwords are equal ❌";
-      lowerCaseCheck.innerHTML = "Lower Case Letters ❌";
-      upperCaseCheck.innerHTML = "Upper Case Letters ❌";
-      containsNumbersCheck.innerHTML = "Contains Numbers ❌";
-      minimumLengthCheck.innerHTML = "At least 10 characters long ❌";
+      for (const check of allChecks) {
+        check.classList.remove("check-yes");
+        check.classList.add("check-no");
+      }
     }
   });
 
   function passwordCheck() {
-    //First check: Passwords are euqal
+    //First check: Passwords are equal
     if (firstPassword.value === secondPassword.value) {
-      equalityCheck.innerHTML = "Passwords are equal ✅";
+      equalityCheck.classList.remove("check-no");
+      equalityCheck.classList.add("check-yes");
     } else {
-      equalityCheck.innerHTML = "Passwords are equal ❌";
+      equalityCheck.classList.remove("check-yes");
+      equalityCheck.classList.add("check-no");
     }
 
     //Second check: Lower case letters
@@ -48,48 +54,50 @@ function renderPasswordCheck() {
       firstPassword.value.match(/[a-z]/gm) &&
       secondPassword.value.match(/[a-z]/gm)
     ) {
-      lowerCaseCheck.innerHTML = "Lower Case Letters ✅";
+      lowerCaseCheck.classList.remove("check-no");
+      lowerCaseCheck.classList.add("check-yes");
     } else {
-      lowerCaseCheck.innerHTML = "Lower Case Letters ❌";
+      lowerCaseCheck.classList.remove("check-yes");
+      lowerCaseCheck.classList.add("check-no");
     }
 
     //Third check: Upper case letters
-
     if (
       firstPassword.value.match(/[A-Z]/gm) &&
       secondPassword.value.match(/[A-Z]/gm)
     ) {
-      upperCaseCheck.innerHTML = "Upper Case Letters ✅";
+      upperCaseCheck.classList.remove("check-no");
+      upperCaseCheck.classList.add("check-yes");
     } else {
-      upperCaseCheck.innerHTML = "Upper Case Letters ❌";
+      upperCaseCheck.classList.remove("check-yes");
+      upperCaseCheck.classList.add("check-no");
     }
 
     //Fourth check: Contains numbers
-
     if (
       firstPassword.value.match(/[1-9]/gm) &&
       secondPassword.value.match(/[1-9]/gm)
     ) {
-      containsNumbersCheck.innerHTML = "Contains Numbers ✅";
+      containsNumbersCheck.classList.remove("check-no");
+      containsNumbersCheck.classList.add("check-yes");
     } else {
-      containsNumbersCheck.innerHTML = "Contains Numbers ❌";
+      containsNumbersCheck.classList.remove("check-yes");
+      containsNumbersCheck.classList.add("check-no");
     }
 
     //Fifth check: At least 10 characters long
-
-    if (firstPassword.value.length > 10 && secondPassword.value.length > 10) {
-      minimumLengthCheck.innerHTML = "At least 10 characters long ✅";
+    if (firstPassword.value.length >= 10 && secondPassword.value.length >= 10) {
+      minimumLengthCheck.classList.remove("check-no");
+      minimumLengthCheck.classList.add("check-yes");
     } else {
-      minimumLengthCheck.innerHTML = "At least 10 characters long ❌";
+      minimumLengthCheck.classList.remove("check-yes");
+      minimumLengthCheck.classList.add("check-no");
     }
   }
 
   //Toggle button to show and hide passwords
   const switchPWButton = document.querySelector("#switch-pw-visibility");
   switchPWButton.addEventListener("click", () => {
-    const firstPassword = document.querySelector("#first-password");
-    const secondPassword = document.querySelector("#second-password");
-
     if (firstPassword.type && secondPassword.type === "password") {
       firstPassword.type = "text";
       secondPassword.type = "text";
