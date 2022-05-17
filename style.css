@@ -2,8 +2,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 :root {
@@ -15,8 +13,9 @@
 
 body {
   height: 100vh;
-  background-color: lightsalmon;
+  margin: 0;
   overflow: hidden;
+  background-color: lightsalmon;
 }
 
 main {

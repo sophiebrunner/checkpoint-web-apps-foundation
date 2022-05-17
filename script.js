@@ -1,11 +1,14 @@
 //Define render-function to avoid global variables
 function renderPasswordCheck() {
-  //Store both input-elements in objects
+  //Store both input-elements in objects (together and single)
+  const bothPasswords = document.querySelector(".input-area");
+
   const firstPassword = document.querySelector("#first-password");
   const secondPassword = document.querySelector("#second-password");
-  //Store all check-text-elements together in an object
-  const allChecks = document.querySelectorAll("p");
-  //Store single check-text-elements in objects
+
+  //Store all check-text-elements in objects (together and single)
+  const allChecks = document.querySelectorAll(".check-display");
+
   const equalityCheck = document.querySelector("#equality-check");
   const lowerCaseCheck = document.querySelector("#lower-case-check");
   const upperCaseCheck = document.querySelector("#upper-case-check");
@@ -13,96 +16,51 @@ function renderPasswordCheck() {
     "#contains-numbers-check"
   );
   const minimumLengthCheck = document.querySelector("#minimum-length-check");
-  //Add events for both input-elements
+
+  //Add event for both input-elements using their parent element in bubbling phase
   //"input"-event represents a change of the input
   //Password-check only runs, if passwords are equal
   //Else "check-no"-class is added to every single check-element
-  firstPassword.addEventListener("input", () => {
-    if (firstPassword.value === secondPassword.value) {
-      passwordCheck();
+  bothPasswords.addEventListener("input", runPasswordCheck);
+
+  function runPasswordCheck() {
+    const firstPwUserInput = firstPassword.value;
+    const secondPwUserInput = secondPassword.value;
+    if (firstPwUserInput === secondPwUserInput) {
+      passwordCheck(firstPwUserInput === secondPwUserInput, equalityCheck);
+      passwordCheck(/[a-z]/gm.test(firstPwUserInput), lowerCaseCheck);
+      passwordCheck(/[A-Z]/gm.test(firstPwUserInput), upperCaseCheck);
+      passwordCheck(/[1-9]/gm.test(firstPwUserInput), containsNumbersCheck);
+      passwordCheck(firstPwUserInput.length >= 10, minimumLengthCheck);
     } else {
       for (const check of allChecks) {
-        check.classList.remove("check-yes");
-        check.classList.add("check-no");
+        check.classList.replace("check-yes", "check-no");
       }
     }
-  });
+  }
 
-  secondPassword.addEventListener("input", () => {
-    if (firstPassword.value === secondPassword.value) {
-      passwordCheck();
+  function passwordCheck(checkConditionTrue, checkEl) {
+    if (checkConditionTrue) {
+      checkEl.classList.replace("check-no", "check-yes");
     } else {
-      for (const check of allChecks) {
-        check.classList.remove("check-yes");
-        check.classList.add("check-no");
-      }
-    }
-  });
-
-  function passwordCheck() {
-    //First check: Passwords are equal
-    if (firstPassword.value === secondPassword.value) {
-      equalityCheck.classList.remove("check-no");
-      equalityCheck.classList.add("check-yes");
-    } else {
-      equalityCheck.classList.remove("check-yes");
-      equalityCheck.classList.add("check-no");
-    }
-
-    //Second check: Lower case letters
-    if (
-      firstPassword.value.match(/[a-z]/gm) &&
-      secondPassword.value.match(/[a-z]/gm)
-    ) {
-      lowerCaseCheck.classList.remove("check-no");
-      lowerCaseCheck.classList.add("check-yes");
-    } else {
-      lowerCaseCheck.classList.remove("check-yes");
-      lowerCaseCheck.classList.add("check-no");
-    }
-
-    //Third check: Upper case letters
-    if (
-      firstPassword.value.match(/[A-Z]/gm) &&
-      secondPassword.value.match(/[A-Z]/gm)
-    ) {
-      upperCaseCheck.classList.remove("check-no");
-      upperCaseCheck.classList.add("check-yes");
-    } else {
-      upperCaseCheck.classList.remove("check-yes");
-      upperCaseCheck.classList.add("check-no");
-    }
-
-    //Fourth check: Contains numbers
-    if (
-      firstPassword.value.match(/[1-9]/gm) &&
-      secondPassword.value.match(/[1-9]/gm)
-    ) {
-      containsNumbersCheck.classList.remove("check-no");
-      containsNumbersCheck.classList.add("check-yes");
-    } else {
-      containsNumbersCheck.classList.remove("check-yes");
-      containsNumbersCheck.classList.add("check-no");
-    }
-
-    //Fifth check: At least 10 characters long
-    if (firstPassword.value.length >= 10 && secondPassword.value.length >= 10) {
-      minimumLengthCheck.classList.remove("check-no");
-      minimumLengthCheck.classList.add("check-yes");
-    } else {
-      minimumLengthCheck.classList.remove("check-yes");
-      minimumLengthCheck.classList.add("check-no");
+      checkEl.classList.replace("check-yes", "check-no");
     }
   }
 
   //Toggle button to show and hide passwords
   const switchPWButton = document.querySelector("#switch-pw-visibility");
   switchPWButton.addEventListener("click", () => {
-    if (firstPassword.type && secondPassword.type === "password") {
+    if (
+      firstPassword.type === "password" &&
+      secondPassword.type === "password"
+    ) {
       firstPassword.type = "text";
       secondPassword.type = "text";
       switchPWButton.innerText = "Hide Passwords";
-    } else if (firstPassword.type && secondPassword.type === "text") {
+    } else if (
+      firstPassword.type === "text" &&
+      secondPassword.type === "text"
+    ) {
       firstPassword.type = "password";
       secondPassword.type = "password";
       switchPWButton.innerText = "Show Passwords";
