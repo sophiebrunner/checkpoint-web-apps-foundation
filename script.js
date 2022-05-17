@@ -26,7 +26,7 @@ function renderPasswordCheck() {
   function runPasswordCheck() {
     const firstPwUserInput = firstPassword.value;
     const secondPwUserInput = secondPassword.value;
-    if (firstPwUserInput === secondPwUserInput) {
+    if (firstPwUserInput === secondPwUserInput && firstPwUserInput !== "") {
       passwordCheck(firstPwUserInput === secondPwUserInput, equalityCheck);
       passwordCheck(/[a-z]/gm.test(firstPwUserInput), lowerCaseCheck);
       passwordCheck(/[A-Z]/gm.test(firstPwUserInput), upperCaseCheck);
